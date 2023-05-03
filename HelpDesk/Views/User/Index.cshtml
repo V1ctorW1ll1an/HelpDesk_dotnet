@@ -1,7 +1,17 @@
+@model IEnumerable<UserViewModel>
+
 @{
   ViewData["Title"] = "Users";
 }
 
 <div>
-  <h1 class="text-red-500">Hello</h1>
+  @foreach (var item in Model)
+  {
+    <div class="pb-4">
+      <p>@item.id_usuario</p>
+      <p>@item.id_perfil</p>
+      <p>@item.nome_usuario</p>
+      <p>@item.email_usuario</p>
+    </div>
+  }
 </div>
