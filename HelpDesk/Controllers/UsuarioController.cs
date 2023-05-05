@@ -4,25 +4,23 @@ using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 
 namespace HelpDesk.Controllers;
-public class UserController : Controller
+public class UsuarioController : Controller
 {
   private readonly IConfiguration _configuration;
-  public UserController(IConfiguration configuration)
+  public UsuarioController(IConfiguration configuration)
   {
     _configuration = configuration;
   }
 
-  // GET default controller /user/
-  public async Task<ActionResult<List<UserViewModel>>> Index()
+  public async Task<ActionResult<List<UsuarioViewModel>>> Index()
   {
     var connectionString = _configuration.GetConnectionString("DefaultConnection");
 
     using var connection = new NpgsqlConnection(connectionString);
     connection.Open();
 
-    var users = await connection.QueryAsync<UserViewModel>("SELECT * FROM tb_usuario");
+    var users = await connection.QueryAsync<UsuarioViewModel>("SELECT * FROM tb_usuario");
 
     return View(users.ToList());
-
   }
 }

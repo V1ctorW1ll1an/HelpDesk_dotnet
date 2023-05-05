@@ -3,10 +3,12 @@ using Dapper;
 using HelpDesk.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 
 namespace HelpDesk.Controllers;
+
 
 public class LoginController : Controller
 {
@@ -20,11 +22,15 @@ public class LoginController : Controller
   }
   public IActionResult Index()
   {
-    return View();
+    if (!User.Identity.IsAuthenticated)
+      return View();
+
+    return RedirectToAction("Index", "Home");
   }
 
+  [AllowAnonymous]
   [HttpPost]
-  public async Task<IActionResult> LoginAsync([Bind("email_usuario", "senha_usuario")] UserViewModel model)
+  public async Task<IActionResult> LoginAsync([Bind("email_usuario", "senha_usuario")] UsuarioViewModel model)
   {
     if (!ModelState.IsValid)
     {
@@ -36,7 +42,7 @@ public class LoginController : Controller
     using var connection = new NpgsqlConnection(connectionString);
     connection.Open();
 
-    var user = await connection.QueryFirstOrDefaultAsync<UserViewModel>("SELECT * FROM tb_usuario WHERE email_usuario = @Email AND senha_usuario = @Password", new { Email = model.email_usuario, Password = model.senha_usuario });
+    var user = await connection.QueryFirstOrDefaultAsync<UsuarioViewModel>("SELECT * FROM tb_usuario WHERE email_usuario = @Email AND senha_usuario = @Password", new { Email = model.email_usuario, Password = model.senha_usuario });
 
     if (user == null)
     {
@@ -64,7 +70,22 @@ public class LoginController : Controller
         new ClaimsPrincipal(claimsIdentity),
         authProperties);
 
-    Console.WriteLine($"User {user.nome_usuario} logged in at {DateTime.UtcNow}.");
     return RedirectToAction("Index", "Home");
+  }
+
+
+  [Authorize]
+  public async Task<IActionResult> LogoutAsync(string? returnUrl = null)
+  {
+    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+    {
+      ModelState.AddModelError(string.Empty, "Usuário ou senha inválidos.");
+    }
+
+    // Clear the existing external cookie
+    await HttpContext.SignOutAsync(
+        CookieAuthenticationDefaults.AuthenticationScheme);
+
+    return RedirectToAction("Index", "Login");
   }
 }

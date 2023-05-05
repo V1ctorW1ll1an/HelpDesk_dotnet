@@ -1,6 +1,6 @@
 namespace HelpDesk.Models
 {
-  public class UserViewModel
+  public class UsuarioViewModel
   {
     public string? id_usuario { get; set; }
     public string? nome_usuario { get; set; }
