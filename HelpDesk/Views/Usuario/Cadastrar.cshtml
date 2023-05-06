@@ -1,3 +1,6 @@
+@model ICollection<PerfilViewModel>
+
+
 @{
   ViewData["Title"] = "Cadastrar Usuario";
   Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,31 +16,35 @@
             Cadastro de Usuário
           </h1>
 
-          <form class="space-y-4 md:space-y-6" method="post" action="">
+          <form class="space-y-4 md:space-y-6" method="post" asp-controller="Usuario" asp-action="Cadastrar">
             <div>
               <label for="nome" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
-              <input type="text" name="nome" id="nome"
+              <input type="text" name="nome_usuario" id="nome"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@company.com" required="true">
+                placeholder="nome" required="true">
             </div>
             <div>
               <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-              <input type="email" name="email" id="email"
+              <input type="email" name="email_usuario" id="email"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@company.com" required="true">
             </div>
             <div>
               <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Senha</label>
-              <input type="password" name="senha" id="password" placeholder="••••••••"
+              <input type="password" name="senha_usuario" id="password" placeholder="••••••••"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required="true">
             </div>
             <div>
               <label for=" perfil"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">permissōes</label>
-              <select name="id_perfil" id="perfil"
+              <select id="perfil" name="perfil" required="true"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option selected>Selecione uma opçāo</option>
+                @foreach (var perfil in Model)
+                {
+                  <option value="@perfil.id_perfil">@perfil.nome_perfil</option>
+                }
               </select>
             </div>
             <div class="flex justify-between gap-3 flex-row-reverse flex-wrap md:flex-nowrap">
@@ -46,7 +53,7 @@
                 Cadastrar
               </button>
 
-              <a class="min-w-[50%] w-[100%]">
+              <a class="min-w-[50%] w-[100%]" asp-action="Index" asp-controller="Usuario">
                 <button type="button"
                   class="border border-red-700 dark:border-red-50 w-full text-red-800 dark:text-red-50 bg-red-50 dark:bg-red-800 dark:hover:bg-red-950 hover:bg-red-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                   Voltar

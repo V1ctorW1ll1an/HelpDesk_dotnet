@@ -29,23 +29,23 @@
 
         @foreach (var usuario in Model)
         {
-            <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+          <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
               @usuario.nome_usuario
-              </th>
-              <td class="px-6 py-4">
+            </th>
+            <td class="px-6 py-4">
               @usuario.email_usuario
-              </td>
-              <td class="px-6 py-4">
-              @GetAccessTypeLabel(usuario.id_perfil)
-              </td>
-              <td class="px-6 py-4 flex gap-4">
-                <a asp-route-id="@usuario.id_usuario"
+            </td>
+            <td class="px-6 py-4">
+              @GetAccessTypeLabel(usuario.perfil.id_perfil)
+            </td>
+            <td class="px-6 py-4 flex gap-4">
+              <a asp-route-id="@usuario.id_usuario"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline">editar</a>
-                <a asp-route-id="@usuario.id_usuario"
+              <a asp-route-id="@usuario.id_usuario"
               class="font-medium text-red-600 dark:text-red-500 hover:underline">excluir</a>
-              </td>
-            </tr>
+            </td>
+          </tr>
         }
       </tbody>
     </table>
@@ -53,9 +53,10 @@
   <div class="flex justify-between gap-5 pt-5">
     <a href="/"
       class="px-4 py-2 rounded-md text-gray-800 dark:text-gray-50 border border-gray-800 dark:border-gray-50 dark:hover:bg-gray-950 hover:bg-gray-200 transition-all">Voltar</a>
-    <a href="/help_desk/cadastrar_usuario.php"
-      class="px-4 py-2 rounded-md text-gray-50 bg-gray-800 hover:bg-gray-950 dark:text-gray-800 dark:bg-gray-50 dark:hover:bg-gray-200 transition-colors">Criar
-      novo usuário</a>
+    <a asp-controller="Usuario" asp-action="Cadastrar"
+      class="px-4 py-2 rounded-md text-gray-50 bg-gray-800 hover:bg-gray-950 dark:text-gray-800 dark:bg-gray-50 dark:hover:bg-gray-200 transition-colors">
+      Criar novo usuário
+    </a>
   </div>
 </main>
 

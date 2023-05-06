@@ -54,16 +54,12 @@ public class LoginController : Controller
     {
       new Claim(ClaimTypes.Name, user.nome_usuario),
       new Claim(ClaimTypes.Email, user.email_usuario),
-      new Claim(ClaimTypes.Role, user.id_perfil),
     };
 
     var claimsIdentity = new ClaimsIdentity(
             claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-    var authProperties = new AuthenticationProperties
-    {
-
-    };
+    var authProperties = new AuthenticationProperties { };
 
     await HttpContext.SignInAsync(
         CookieAuthenticationDefaults.AuthenticationScheme,
