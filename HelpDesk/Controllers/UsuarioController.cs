@@ -23,4 +23,9 @@ public class UsuarioController : Controller
 
     return View(users.ToList());
   }
+
+  public IActionResult Cadastrar()
+  {
+    return View();
+  }
 }
